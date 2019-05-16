@@ -1,0 +1,5 @@
+- name: converge
+  hosts: all
+  roles:
+    - role: ocp_configure_users
+  post_tasks: []
