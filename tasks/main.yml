@@ -1,1 +1,31 @@
-# role tasks
+- name: add users to htpasswd
+  htpasswd:
+    path: "{{ ocp_configure_users_htpasswd_path }}"
+    name: "{{ item.username }}"
+    password: "{{ item.password }}"
+  with_items: "{{ ocp_configure_users }}"
+  become: "{{ ocp_configure_users_become }}"
+  become_user: "{{ ocp_configure_users_become_user }}"
+
+- name: install openshift client package for k8s module
+  package:
+    name: "{{ ocp_configure_users_packages }}"
+    state: present
+  become: "{{ ocp_configure_users_become }}"
+  become_user: "{{ ocp_configure_users_become_user }}"
+
+- name: add user roles to cluster
+  k8s:
+    state: present
+    inline:
+      kind: ClusterRoleBinding
+      metadata:
+        name: dashboard
+        namespace: kube-system
+      roleRef:
+        name: "{{ item.role }}"
+      userNames:
+        - "{{ item.username }}"
+  with_items: "{{ ocp_configure_users }}"
+  become: "{{ ocp_configure_users_become }}"
+  become_user: "{{ ocp_configure_users_become_user }}"
