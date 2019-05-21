@@ -1,1 +1,2 @@
-# Vars for ocp_configure_users
+ocp_configure_users_packages:
+  - python2-openshift

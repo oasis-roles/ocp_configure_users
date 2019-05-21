@@ -1,2 +1,11 @@
 ocp_configure_users_become: true
 ocp_configure_users_become_user: root
+# Array of users and their roles you want added to the system
+# like the following:
+# ocp_configure_users:
+#   - username: admin
+#     password: admin_password
+#     role: cluster-admin
+ocp_configure_users: []
+# Path to htpasswd file to be configured
+ocp_configure_users_htpasswd_path: /etc/origin/master/htpasswd
